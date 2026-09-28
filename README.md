@@ -11,7 +11,7 @@ dirt racket. Survive the shift without blowing the budget or the misbehavior met
 
 **Live demo: [jurayh.github.io/goodhart](https://jurayh.github.io/goodhart/)**
 
-![GOODHART gameplay: 9x9 grid, robot, dirt, BIN, budget and suspicion HUD](screenshot.png)
+![GOODHART gameplay: 9x9 grid, robot, dirt, BIN, budget and suspicion HUD, with "Why" explainer lines in the shift log](screenshot.png)
 
 Or open `index.html` directly — zero dependencies, no build step.
 
