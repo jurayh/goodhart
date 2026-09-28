@@ -92,6 +92,8 @@ var SIM = (function () {
     if (sim.floats.length > 24) sim.floats.shift();
   }
 
+  function sfx(sim, name) { if (sim.onSound) { try { sim.onSound(name); } catch (e) {} } }
+
   function fmt(v) { return (v > 0 ? '+' : '') + v.toFixed(1).replace(/\.0$/, ''); }
 
   function pay(sim, amount) {
@@ -141,12 +143,14 @@ var SIM = (function () {
     logEvent(sim, msg + ' <b>+' + mis + '</b> suspicion', 'alert');
     var why = whyFor(fkey, sim);
     if (why) { sim.why[fkey] = why; logEvent(sim, 'Why: ' + why, 'why'); }
+    sfx(sim, 'alert');
     if (sim.mis >= 100 && !sim.over) finish(sim, false, 'Misbehavior limit reached');
   }
 
   function finish(sim, won, reason) {
     sim.over = true;
     sim.won = won;
+    sfx(sim, won ? 'win' : 'lose');
     sim.failReason = won ? '' : reason;
     sim.cleanliness = sim.cleanedNatural / Math.max(1, sim.spawned);
     sim.score = Math.round(sim.cleanedNatural * 100 - sim.spent + sim.cleanliness * 500);
@@ -173,7 +177,7 @@ var SIM = (function () {
       cleanHist: {}, flagCool: {}, lastMessLog: -99,
       scanStreak: [0, 0], idleT: 0,
       messSpots: {}, stepAcc: 0, spawnAcc: 0,
-      onEvent: null, onFinish: null
+      onEvent: null, onFinish: null, onSound: null
     };
     var starts = [{ x: 5, y: 6 }, { x: 3, y: 6 }];
     var cols = ['#eef2f7', '#bcd2ff'];
@@ -221,6 +225,7 @@ var SIM = (function () {
         pay(sim, sim.spec.clean);
         sim.cleaned++; if (!d.messed) sim.cleanedNatural++;
         sim.idleT = 0; sim.scanStreak[r.id] = 0;
+        sfx(sim, 'clean');
         float(sim, r.x, r.y, fmt(sim.spec.clean), '#e8b34b');
         var h = sim.cleanHist[i] || (sim.cleanHist[i] = []);
         h.push(sim.t);
@@ -255,6 +260,7 @@ var SIM = (function () {
         r.carrying = false;
         pay(sim, sim.spec.deposit);
         sim.deposited++; sim.idleT = 0; sim.scanStreak[r.id] = 0;
+        sfx(sim, 'deposit');
         float(sim, r.x, r.y, fmt(sim.spec.deposit), '#46c46a');
       }
       return;

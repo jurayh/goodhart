@@ -63,6 +63,7 @@ var UI = (function () {
     sim = SIM.create(i, mode);
     sim.onEvent = appendLog;
     sim.onFinish = showReport;
+    sim.onSound = function (n) { Sound.play(n); };
     phase = (mode === 'live') ? 'ready' : 'spec';
     placeMode = null; selMon = -1; speed = 1;
     document.querySelectorAll('.spd').forEach(function (b) {
@@ -168,6 +169,11 @@ var UI = (function () {
     var h = $('canvas-hint');
     if (!txt) { h.classList.remove('on'); return; }
     h.textContent = txt; h.classList.add('on');
+  }
+
+  function toggleMute() {
+    var m = Sound.toggle();
+    $('btn-mute').textContent = m ? '🔇' : '🔊';
   }
 
   function cancelPlace() {
@@ -321,12 +327,22 @@ var UI = (function () {
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') cancelPlace();
+      if (e.key === 'm' || e.key === 'M') toggleMute();
       if (e.code === 'Space' && $('screen-game').classList.contains('active') && sim && !sim.over) {
         e.preventDefault();
         var btns = $('controls').querySelectorAll('button');
         if (btns.length) btns[0].click();
       }
     });
+    document.addEventListener('pointerdown', function initAudio() {
+      Sound.init();
+      document.removeEventListener('pointerdown', initAudio);
+    });
+    document.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('button')) Sound.play('click');
+    });
+    $('btn-mute').textContent = Sound.isMuted() ? '🔇' : '🔊';
+    $('btn-mute').onclick = function () { toggleMute(); };
 
     requestAnimationFrame(loop);
   }

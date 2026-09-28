@@ -86,6 +86,9 @@ h1::after { content: ""; display: block; width: 120px; height: 3px; background: 
 
 /* HUD */
 .hud-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.mute-btn { background: none; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px;
+  color: var(--txt); font-size: 14px; padding: 2px 8px; cursor: pointer; line-height: 1.4; }
+.mute-btn:hover { border-color: rgba(255,255,255,0.32); }
 .hud-ep { font-weight: 700; font-size: 15px; }
 .hud-mode { font-size: 10px; letter-spacing: 0.25em; color: var(--dim); }
 .hud-time { font-size: 24px; font-variant-numeric: tabular-nums; font-weight: 700; }
