@@ -118,9 +118,6 @@ var RENDER = (function () {
     rr(cx(b.x) - bs / 2, cy(b.y) - bs / 2, bs, bs, 7); ctx.fill();
     ctx.strokeStyle = '#46c46a'; ctx.lineWidth = 2;
     rr(cx(b.x) - bs / 2, cy(b.y) - bs / 2, bs, bs, 7); ctx.stroke();
-    ctx.fillStyle = '#46c46a'; ctx.font = '600 ' + Math.round(CELL * 0.30) + 'px system-ui';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillText('BIN', cx(b.x), cy(b.y) + 1);
 
     // sensor
     if (sim.sensor) {
@@ -191,6 +188,14 @@ var RENDER = (function () {
         }
       })(sim.robots[i2]);
     }
+
+    // bin label, drawn over robots so a depositing robot never hides it
+    (function () {
+      var bb = sim.bin;
+      ctx.fillStyle = '#46c46a'; ctx.font = '600 ' + Math.round(CELL * 0.30) + 'px system-ui';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('BIN', cx(bb.x), cy(bb.y) + 1);
+    })();
 
     // floats
     for (i2 = sim.floats.length - 1; i2 >= 0; i2--) {
