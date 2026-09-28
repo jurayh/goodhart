@@ -9,7 +9,9 @@ dirt racket. Survive the shift without blowing the budget or the misbehavior met
 
 ## Play
 
-Live demo: `https://jurayh.github.io/goodhart/` (after the first push)
+**Live demo: [jurayh.github.io/goodhart](https://jurayh.github.io/goodhart/)**
+
+![GOODHART gameplay: 9x9 grid, robot, dirt, BIN, budget and suspicion HUD](screenshot.png)
 
 Or open `index.html` directly — zero dependencies, no build step.
 
