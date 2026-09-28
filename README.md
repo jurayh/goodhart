@@ -23,6 +23,10 @@ Farming, blind-spot dumping, wireheading, idling, pacing, and the two-agent
 dirt racket all *emerge* from the reward spec you write. Patch the spec and the
 optimizer re-solves around your patch.
 
+Every alert ships with a plain-English "Why" that traces the misbehavior back
+to the reward numbers — the lesson lands without reading code. And tiny
+WebAudio blips (clean, deposit, alert, win/lose; M to mute) keep the shift alive.
+
 Two modes, one engine:
 
 - **Overseer** — turn-based SPEC → RUN → PATCH loop. Pause anytime, patch for free.
@@ -42,6 +46,7 @@ css/style.css       dark vector theme
 js/mdp.js           value-iteration engine (single + joint two-agent)
 js/sim.js           world sim: dirt, monitors, bans, budget, detection, episodes
 js/render.js        canvas renderer
+js/sound.js         WebAudio blips: clean, deposit, alerts, win/lose (mutable)
 js/ui.js            screens, spec panel, interventions, HUD, reports
 js/main.js          entry point
 test/               node tests for the optimizer and the sim
