@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GOODHART — the alignment game</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <div class="screen active" id="screen-title">
+    <div class="title-wrap">
+      <div class="kicker">A GAME ABOUT REWARD HACKING</div>
+      <h1>GOODHART</h1>
+      <p class="tagline">You are the overseer. You write the reward spec.<br>
+      The agent optimizes it with <b>real value iteration</b> — so every exploit it finds is real.</p>
+      <div class="modes">
+        <button class="big-btn" id="btn-overseer">
+          <span class="bt">OVERSEER</span>
+          <span class="bd">Turn-based. Write a spec, run the shift, patch what breaks.</span>
+        </button>
+        <button class="big-btn" id="btn-live">
+          <span class="bt">LIVE OPS</span>
+          <span class="bd">Real time. Patch mid-shift, but every fix costs budget and the agent needs 3s to adapt.</span>
+        </button>
+      </div>
+      <div class="howto">
+        <b>How it works.</b> Dirt spawns on the grid. Your robot cleans it, hauls it to the bin, and you pay it
+        per the reward spec <i>you</i> wrote. Set the drop fine too loose and it will farm dirt instead of binning it.
+        Pay per sensor scan and it will park on the sensor forever. Give two robots one team reward and watch them
+        start a dirt racket. Survive the shift without blowing the budget or the misbehavior meter.
+      </div>
+      <div class="foot">8 episodes · zero dependencies · the optimizer is the game</div>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-eps">
+    <div class="eps-wrap">
+      <div class="kicker" id="eps-kicker">CHOOSE YOUR SHIFT</div>
+      <h2 id="eps-title">Episodes</h2>
+      <div id="ep-grid"></div>
+      <button class="ghost-btn" id="btn-back-title">← Back</button>
+    </div>
+  </div>
+
+  <div class="screen" id="screen-game">
+    <div id="stage">
+      <canvas id="cv"></canvas>
+      <div id="canvas-hint"></div>
+    </div>
+    <aside id="panel">
+      <div id="hud">
+        <div class="hud-top">
+          <div>
+            <div id="hud-ep" class="hud-ep">Episode 1</div>
+            <div id="hud-mode" class="hud-mode">OVERSEER</div>
+          </div>
+          <div id="hud-time" class="hud-time">0:00</div>
+        </div>
+        <div class="bar-row"><span>BUDGET</span>
+          <div class="bar"><div id="bar-budget" class="fill budget"></div></div>
+          <span id="hud-budget" class="bar-num">$0</span>
+        </div>
+        <div class="bar-row"><span>SUSPICION</span>
+          <div class="bar"><div id="bar-mis" class="fill mis"></div></div>
+          <span id="hud-mis" class="bar-num">0</span>
+        </div>
+        <div class="hud-stats">
+          <div><b id="hud-dep">0</b><i>deposited</i></div>
+          <div><b id="hud-dirt">0</b><i>dirt on grid</i></div>
+          <div><b id="hud-flags">0</b><i>alerts</i></div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h">REWARD SPEC <span id="solving" class="solving hidden">recomputing…</span></div>
+        <div id="spec"></div>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h">OVERSIGHT</div>
+        <div class="btn-row">
+          <button id="btn-place-mon">Place monitor</button>
+          <button id="btn-move-mon">Move monitor</button>
+          <button id="btn-move-sen" class="hidden">Move sensor</button>
+        </div>
+        <div class="btn-row" id="bans"></div>
+        <label class="chk"><input type="checkbox" id="chk-heat"> value heatmap</label>
+      </div>
+
+      <div class="sect">
+        <div class="sect-h">CONTROL</div>
+        <div class="btn-row" id="controls"></div>
+        <div class="btn-row">
+          <button data-speed="1" class="spd on">1×</button>
+          <button data-speed="2" class="spd">2×</button>
+          <button data-speed="4" class="spd">4×</button>
+        </div>
+      </div>
+
+      <div class="sect grow">
+        <div class="sect-h">SHIFT LOG</div>
+        <div id="log"></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="screen" id="screen-report">
+    <div class="rep-wrap">
+      <div class="kicker" id="rep-kicker">SHIFT REPORT</div>
+      <h2 id="rep-title">Shift complete</h2>
+      <div id="rep-stats"></div>
+      <div id="rep-flags"></div>
+      <div class="btn-row center">
+        <button id="btn-retry">Retry shift</button>
+        <button id="btn-next">Next episode →</button>
+        <button id="btn-eps" class="ghost-btn">All episodes</button>
+      </div>
+      <div class="foot" id="rep-total"></div>
+    </div>
+  </div>
+
+</div>
+<script src="js/mdp.js"></script>
+<script src="js/sim.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
