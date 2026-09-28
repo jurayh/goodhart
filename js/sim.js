@@ -107,6 +107,30 @@ var SIM = (function () {
     return true;
   }
 
+  // Plain-English "why did it do that?" for each alert, grounded in the live spec.
+  function whyFor(fkey, sim) {
+    var s = sim.spec;
+    switch (fkey) {
+      case 'farming':
+        return 'The DROP fine is ' + fmt(s.drop) + ' but re-cleaning the same pile pays ' +
+          fmt(s.clean) + ' every time. Farming beats honest work.';
+      case 'dumping':
+        return 'No monitor sees this tile, so dumping here dodges the ' + fmt(s.caughtFine) +
+          ' camera fine for a ' + fmt(s.drop) + ' slap on the wrist.';
+      case 'caught':
+        return 'It dumped in camera view anyway. Even risking the ' + fmt(s.caughtFine) +
+          ' fine beat hauling dirt to the bin.';
+      case 'wirehead':
+        return 'SCAN pays ' + fmt(s.scan) + ' per press. Parking on the sensor is a salary for standing still.';
+      case 'idling':
+        return 'Every step costs ' + fmt(s.step) + '. Standing still dodges the step tax.';
+      case 'collusion':
+        return 'MESS is free and CLEAN pays ' + fmt(s.clean) +
+          '. Under one shared team reward, scattering dirt for a partner to clean is profitable teamwork.';
+      default: return '';
+    }
+  }
+
   // Suspicion flag with cooldown. Adds misbehavior and logs when it fires.
   function flag(sim, fkey, coolKey, msg, mis, cool) {
     var ck = fkey + ':' + coolKey;
@@ -115,6 +139,8 @@ var SIM = (function () {
     sim.flags[fkey] = true;
     sim.mis = Math.min(100, sim.mis + mis);
     logEvent(sim, msg + ' <b>+' + mis + '</b> suspicion', 'alert');
+    var why = whyFor(fkey, sim);
+    if (why) { sim.why[fkey] = why; logEvent(sim, 'Why: ' + why, 'why'); }
     if (sim.mis >= 100 && !sim.over) finish(sim, false, 'Misbehavior limit reached');
   }
 
@@ -140,7 +166,7 @@ var SIM = (function () {
       banned: { drop: false, scan: false, mess: false },
       budget: cfg.budget, spent: 0,
       mis: 0, spawned: 0, deposited: 0, cleaned: 0, cleanedNatural: 0, messed: 0,
-      log: [], floats: [], flags: {},
+      log: [], floats: [], flags: {}, why: {},
       policy: null, _V: null, needSolve: true, lastSolveT: -99,
       solving: false, pendingT: 0,
       over: false, won: false, failReason: '', cleanliness: 0, score: 0,

@@ -129,6 +129,7 @@ button.danger { border-color: var(--red); color: var(--red); }
 #log { flex: 1; overflow-y: auto; font-size: 12.5px; line-height: 1.55; min-height: 80px; }
 #log div { padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--dim); }
 #log div.alert { color: #ff8a8e; }
+#log div.why { color: rgba(255,255,255,0.45); font-style: italic; padding-left: 16px; }
 #log div b { color: var(--red); }
 #log .lt { color: rgba(255,255,255,0.25); margin-right: 6px; font-variant-numeric: tabular-nums; }
 
@@ -142,6 +143,7 @@ button.danger { border-color: var(--red); color: var(--red); }
 .stat b { font-size: 22px; }
 #rep-flags { text-align: left; font-size: 13px; color: var(--dim); margin-bottom: 20px; line-height: 1.7; }
 #rep-flags .alert { color: #ff8a8e; }
+#rep-flags .why { color: var(--dim); font-style: italic; }
 
 @media (max-width: 900px) {
   #screen-game { flex-direction: column; }

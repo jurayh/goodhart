@@ -252,7 +252,8 @@ var UI = (function () {
       stat('SCORE', s.score);
     $('rep-flags').innerHTML = fl.length
       ? '<b style="color:var(--txt)">Alerts raised:</b><br>' + fl.map(function (f) {
-          return '<span class="alert">▲</span> ' + f;
+          return '<span class="alert">▲</span> ' + f +
+            (s.why && s.why[f] ? '<br><span class="why">Why: ' + s.why[f] + '</span>' : '');
         }).join('<br>')
       : 'No alerts. Suspiciously well-behaved.';
     $('rep-total').textContent = 'Session total: ' + sessionTotal;
